@@ -1,74 +1,132 @@
 # US 2024 Polling Data Analysis Tool
 
-**US 2024 Polling Data Analysis Tool** is a comprehensive data analysis tool designed to streamline data exploration, analysis, and visualisation. The tool supports multiple data formats and provides an intuitive interface for both novice and expert data scientists.
+**US 2024 Polling Data Analysis Tool** is a comprehensive data analysis project designed to explore, analyse, and visualise U.S. 2024 election polling data.  
+It provides an intuitive, interactive Streamlit dashboard for exploring polling trends, pollster bias, methodology differences, and model-based predictions.  
+This project combines **Python**, **data analytics**, **machine learning**, and **AI-assisted insights** to support evidence-based political trend analysis.
+
+---
 
 ## Dataset Content
-* Describe your dataset. Choose a dataset of reasonable size to avoid exceeding the repository's maximum size of 100Gb.
+The dataset comes from [Kaggle – 2024 U.S. Election Generic Ballot Polling Data](https://www.kaggle.com/datasets/iamtanmayshukla/2024-u-s-election-generic-ballot-polling-data).  
+It contains **608 records** of national-level generic ballot polls conducted between **November 2022 and August 2024**, featuring:
+- Pollster names  
+- Sample sizes  
+- Start and end dates  
+- Democratic (`dem`) and Republican (`rep`) support percentages  
+- Methodology (phone, online, panel)  
+- Pollster rating and numeric grade  
 
+The dataset was cleaned, normalised, and saved as:
+`data/clean/generic_ballot_polls_clean.csv`  
+A model-ready version, `generic_ballot_polls_dashboard.csv`, was generated for dashboard use.
+
+---
 
 ## Business Requirements
-* Describe your business requirements
+The project addresses these key business questions:
+1. How do **party support levels** change over time?  
+2. Which **pollsters** and **methodologies** show consistent bias?  
+3. Does **sample size** affect the reported margin of support?  
+4. Can we **predict the Democratic–Republican margin** using machine learning?  
+5. How can polling data be visualised in an accessible, interactive dashboard?
 
+---
 
 ## Hypothesis and how to validate?
-* List here your project hypothesis(es) and how you envision validating it (them) 
+| Hypothesis | Validation Method |
+|-------------|------------------|
+| 1. Democratic and Republican support move inversely over time. | Line plots and correlation matrix. |
+| 2. Online polls show higher variance than phone polls. | Boxplots and standard deviation comparison by methodology. |
+| 3. High-rated pollsters report results closer to the overall average. | Compare pollster bias (`margin_bias`) vs `numeric_grade`. |
+| 4. Larger sample sizes produce less variability in results. | Scatter plots of `sample_size` vs `margin`. |
+| 5. A Random Forest model can predict polling margins more accurately than Linear Regression. | Evaluate models using MSE, MAE, and R² metrics. |
+
+---
 
 ## Project Plan
-* Outline the high-level steps taken for the analysis.
-* How was the data managed throughout the collection, processing, analysis and interpretation steps?
-* Why did you choose the research methodologies you used?
+**Steps taken:**
+1. **Data Collection & Cleaning (Notebook 01)**  
+   - Loaded raw Kaggle dataset, cleaned missing values, standardised dates, normalised methodologies.
+2. **Exploratory Data Analysis (Notebook 02)**  
+   - Examined distributions, correlations, and trends across pollsters and methods.
+3. **Feature Engineering & Modeling (Notebook 03)**  
+   - Created new features (margin, rolling averages, encoding), trained Linear Regression and Random Forest models.
+4. **Dashboard Development (Notebook 04)**  
+   - Built Streamlit dashboard to visualise trends and predictions interactively.
+
+**Data Management:**  
+All raw and processed datasets are version-controlled under `/data/`. Missing values handled via imputation or removal; all features were stored in CSVs for reproducibility.
+
+**Research Methodology:**  
+An **observational, quantitative** approach using secondary polling data. AI assistance was incorporated for feature ideation and narrative generation.
+
+---
 
 ## The rationale to map the business requirements to the Data Visualisations
-* List your business requirements and a rationale to map them to the Data Visualisations
+| Business Requirement | Visualisation Type | Rationale |
+|----------------------|--------------------|------------|
+| 1. Track party support over time | Line chart with rolling average | Shows fluctuations and trends chronologically |
+| 2. Compare distribution of support | Histogram with mean & std lines | Highlights central tendency and variance |
+| 3. Pollster bias and count | Bar chart | Identifies polling consistency and lean direction |
+| 4. Methodology bias | Grouped bar chart | Compares how methodology affects averages |
+| 5. Relationship between sample size and margin | Scatter plot | Tests effect of sample size on margin variability |
+| 6. Predictive trend visualisation | Line chart (Predicted vs Actual Margin) | Demonstrates model performance |
+
+---
 
 ## Analysis techniques used
-* List the data analysis methods used and explain limitations or alternative approaches.
-* How did you structure the data analysis techniques. Justify your response.
-* Did the data limit you, and did you use an alternative approach to meet these challenges?
-* How did you use generative AI tools to help with ideation, design thinking and code optimisation?
+- **Descriptive Statistics:** Mean, median, standard deviation, correlation matrix.  
+- **Inferential Analysis:** Margin bias across pollsters and methodologies.  
+- **Predictive Modeling:** Linear Regression (baseline) and Random Forest (advanced).  
+- **Feature Engineering:** Margin, rolling averages, one-hot encoding, scaling.  
+- **AI Tools:** Used ChatGPT to suggest feature scaling, encoding, and storytelling summaries.
+
+**Limitations & Alternatives:**  
+- Dataset limited to national-level polls (no state data).  
+- Future work could include time-series forecasting (ARIMA, Prophet).  
+- Rolling averages help mitigate short-term variability.
+
+---
 
 ## Ethical considerations
-* Were there any data privacy, bias or fairness issues with the data?
-* How did you overcome any legal or societal issues?
+- Dataset is **public and anonymised** — no personal data collected.  
+- Discussed **bias and fairness** in methodology comparisons.  
+- Acknowledged limitations of predictive modeling in political forecasting.  
+- Complies with **GDPR principles** — all data used responsibly and transparently.
+
+---
 
 ## Dashboard Design
-* List all dashboard pages and their content, either blocks of information or widgets, like buttons, checkboxes, images, or any other item that your dashboard library supports.
-* Later, during the project development, you may revisit your dashboard plan to update a given feature (for example, at the beginning of the project you were confident you would use a given plot to display an insight but subsequently you used another plot type).
-* How were data insights communicated to technical and non-technical audiences?
-* Explain how the dashboard was designed to communicate complex data insights to different audiences. 
+**Single-page Streamlit Dashboard:**  
+Includes widgets for dynamic exploration:
 
-## Unfixed Bugs
-* Please mention unfixed bugs and why they were not fixed. This section should include shortcomings of the frameworks or technologies used. Although time can be a significant variable to consider, paucity of time and difficulty understanding implementation are not valid reasons to leave bugs unfixed.
-* Did you recognise gaps in your knowledge, and how did you address them?
-* If applicable, include evidence of feedback received (from peers or instructors) and how it improved your approach or understanding.
+| Element | Description |
+|----------|-------------|
+| **Date Range Selector** | Filters polls by time period |
+| **Party Selection** | Choose which party series to plot |
+| **Pollster Filter** | Multi-select for scatter and bias plots |
+| **Methodology Filter** | Multi-select to compare online vs phone |
+| **Histogram Toggle** | Show/hide mean & std annotations |
+| **KPIs** | Total polls, average margin, predicted margin |
+| **Plots** | Line charts, histograms, bar charts, scatter plots |
+
+**Communication Design:**  
+Visuals are colour-coded, labelled, and use tooltips for clarity.  
+Complex data is simplified into accessible summaries and KPIs for non-technical users.
+
+--- 
+
+**Knowledge Gaps & Adaptation:**  
+- Overcame initial issues with Streamlit layout using Plotly container width.  
+- Learned model serialisation with `joblib` for integration into dashboard.  
+- Incorporated AI feedback loops for optimisation and storytelling clarity.
+
+---
 
 ## Development Roadmap
-* What challenges did you face, and what strategies were used to overcome these challenges?
-* What new skills or tools do you plan to learn next based on your project experience? 
+**Challenges & Strategies:**
+- Cleaning inconsistent methodology strings → created `clean_methodology()` function.  
+- Model overfitting → tuned Random Forest parameters and used rolling averages.  
+- Dashboard alignment issues → used Plotly layout adjustments.
 
-
-
-## Main Data Analysis Libraries
-* Here you should list the libraries you used in the project and provide an example(s) of how you used these libraries.
-
-
-## Credits 
-
-* In this section, you need to reference where you got your content, media and extra help from. It is common practice to use code from other repositories and tutorials, however, it is important to be very specific about these sources to avoid plagiarism. 
-* You can break the credits section up into Content and Media, depending on what you have included in your project. 
-
-### Content 
-
-- The text for the Home page was taken from Wikipedia Article A
-- Instructions on how to implement form validation on the Sign-Up page was taken from [Specific YouTube Tutorial](https://www.youtube.com/)
-- The icons in the footer were taken from [Font Awesome](https://fontawesome.com/)
-
-### Media
-
-- The photos used on the home and sign-up page are from This Open-Source site
-- The images used for the gallery page were taken from this other open-source site
-
-
-
-## Acknowledgements (optional)
-* Thank the people who provided support through this project.
+---
