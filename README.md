@@ -44,6 +44,7 @@ To run a notebook:
    pip install -r requirements.txt
 2. Then, run 
    ```streamlit run dashboard/polling_data_dashboard.py
+3. Then, access the dashboard through the automatically opened browser, or by control clicking the provided link in the terminal.
 
 ---
 
