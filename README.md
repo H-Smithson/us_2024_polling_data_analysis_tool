@@ -22,6 +22,31 @@ A model-ready version, `generic_ballot_polls_dashboard.csv`, was generated for d
 
 ---
 
+## How to Use This Project
+
+### 🧱 Notebooks
+Each notebook represents a key stage in the data analysis process:
+| Notebook | Purpose |
+|-----------|----------|
+| **01_ETL_Pipeline.ipynb** | Loads, cleans, and prepares raw polling data. |
+| **02_EDA.ipynb** | Performs exploratory data analysis and visualisation. |
+| **03_Feature_Engineering_Modeling.ipynb** | Builds and evaluates machine learning models. |
+| **04_Dashboard_Build.ipynb** | Prepares final dashboard dataset and writes Streamlit app. |
+
+To run a notebook:
+1. Open it in Jupyter Lab or VS Code.  
+2. Run cells sequentially.  
+3. Outputs (plots, cleaned CSVs, models) will be saved automatically to `/data/clean/` and `/models/`.
+
+### 💻 Streamlit Dashboard
+1. From your project root, install dependencies:
+   ```bash
+   pip install -r requirements.txt
+2. Then, run 
+   ```streamlit run dashboard/polling_data_dashboard.py
+
+---
+
 ## Business Requirements
 The project addresses these key business questions:
 1. How do **party support levels** change over time?  
@@ -130,3 +155,34 @@ Complex data is simplified into accessible summaries and KPIs for non-technical 
 - Dashboard alignment issues → used Plotly layout adjustments.
 
 ---
+
+# Conclusions
+
+- Polling trends remain relatively stable, with short-term fluctuations smoothed by rolling averages.
+
+- Online and phone polls display measurable methodological bias.
+
+- Larger sample sizes tend to reduce margin variability.
+
+- The Random Forest model provides stronger predictive accuracy (lower MSE, higher R²) than Linear Regression.
+
+- The interactive dashboard successfully communicates insights to both technical and non-technical audiences through intuitive visuals.
+
+- AI assistance enhanced both feature engineering and storytelling, improving workflow efficiency and interpretability.
+
+# Credits
+# Content
+
+- Dataset: Kaggle – 2024 U.S. Election Generic Ballot Polling Data
+
+- Python & Streamlit documentation.
+
+- Plotly and Scikit-learn official examples.
+ 
+- AI suggestions (ChatGPT / Copilot) for feature engineering and narrative clarity.
+
+- Learning materials provided by the code institute.
+
+# Acknowledgements
+
+Special thanks to the Code Institute, mentors, and AI tools that supported ideation, design thinking, and code optimisation throughout this project.
